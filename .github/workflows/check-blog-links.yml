@@ -19,6 +19,8 @@ jobs:
         uses: actions/setup-node@b39b52d1213e96004bfcb1c61a8a6fa8ab84f3e8 # v4.0.1
         with:
           node-version: 20.x
+      - name: Install dependencies
+        run: yarn install
       - name: Check for changed blog posts
         id: check-for-changed-blog-posts
         uses: tj-actions/changed-files@90a06d6ba9543371ab4df8eeca0be07ca6054959 # v42.0.2
