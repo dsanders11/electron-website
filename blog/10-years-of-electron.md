@@ -29,7 +29,7 @@ Every contribution is invaluable to us as maintainers.
 
 ## How did we get here?
 
-**Atom Shell** was built as the backbone for GitHub’s [Atom editor](https://atom.io/), which launched in
+**Atom Shell** was built as the backbone for GitHub’s [Atom editor](https://zatom.io/), which launched in
 public beta in April 2014. It was built from the ground up as an alternative to the web-based
 desktop frameworks available at the time (node-webkit and Chromium Embedded Framework). It had a
 killer feature: embedding Node.js and Chromium to provide a powerful desktop runtime for web
