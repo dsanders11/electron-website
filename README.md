@@ -7,6 +7,7 @@
 This repository contains the code for the [Electron](https://www.electronjs.org/) website.
 It is built using [Docusaurus](https://docusaurus.io/), a modern static website generator.
 
+
 ## Installation
 
 The website currently builds using Node.js 16. If you're using `nvm`, you can set the correct
