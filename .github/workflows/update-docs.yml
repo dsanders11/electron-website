@@ -18,6 +18,9 @@ jobs:
   update-docs:
     runs-on: ubuntu-latest
     environment: docs-updater
+    permissions:
+      contents: read
+      pull-requests: write
     steps:
       - name: Generate GitHub App token
         uses: electron/github-app-auth-action@384fd19694fe7b6dcc9a684746c6976ad78228ae # v1.1.1
@@ -41,8 +44,29 @@ jobs:
             echo "Unexpectedly found no new content for docs - this is probably a bug"
             exit 1
           fi
-      - name: Push changes
+      - name: Push changes to branch
         uses: dsanders11/github-app-commit-action@43de6da2f4d927e997c0784c7a0b61bd19ad6aac # v1.5.0
         with:
           message: 'chore: update ref to docs (🤖)'
+          ref: 'docs/update-to-${{ github.event.client_payload.sha || github.event.inputs.sha }}'
           token: ${{ steps.generate-token.outputs.token }}
+      - name: Create pull request
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ steps.generate-token.outputs.token }}
+        run: |
+          gh pr create \
+            --title "chore: update ref to docs (🤖)" \
+            --body "Automated PR to update the docs to the latest commit (${{
+              github.event.client_payload.sha || github.event.inputs.sha
+            }})" \
+            --head "docs/update-to-${{ github.event.client_payload.sha || github.event.inputs.sha }}" \
+            --base main
+      - name: Approve and merge pull request
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          PR_NUMBER=$(gh pr list --head "docs/update-to-${{ github.event.client_payload.sha || github.event.inputs.sha }}" --json number --jq '.[0].number')
+          gh pr review ${PR_NUMBER} --approve
+          gh pr merge ${PR_NUMBER} --auto --squash
