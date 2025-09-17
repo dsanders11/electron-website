@@ -70,5 +70,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           PR_NUMBER=$(gh pr list --head "docs/update-to-${SHA}" --json number --jq '.[0].number')
-          gh pr review ${PR_NUMBER} --approve
+          # gh pr review ${PR_NUMBER} --approve
           gh pr merge ${PR_NUMBER} --auto --squash
